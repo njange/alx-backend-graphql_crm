@@ -1,4 +1,6 @@
 from django.db import models
+import graphene
+import crm.schema
 
 class Customer(models.Model):
     name = models.CharField(max_length=255)
@@ -15,3 +17,11 @@ class Order(models.Model):
     products = models.ManyToManyField(Product)
     order_date = models.DateTimeField(auto_now_add=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+class Query(crm.schema.Query, graphene.ObjectType):
+    pass
+
+class Mutation(crm.schema.Mutation, graphene.ObjectType):
+    pass
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
